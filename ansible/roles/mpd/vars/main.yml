@@ -1,0 +1,8 @@
+---
+mpd_packages:
+  - name: musicpd
+
+mpd_directories:
+  - name: .mpd
+  - name: .mpd/playlists
+  - name: music

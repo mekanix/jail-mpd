@@ -1,0 +1,29 @@
+---
+- name: install mpd packages
+  with_items: "{{ mpd_packages }}"
+  package:
+    name: "{{ item.name }}"
+  notify:
+    - restart mpd
+
+- name: create directories
+  with_items: "{{ mpd_directories }}"
+  file:
+    path: "/var/mpd/{{ item.name }}"
+    owner: mpd
+    group: mpd
+    state: directory
+
+- name: configure mpd service
+  template:
+    src: musicpd.conf.j2
+    dest: /usr/local/etc/musicpd.conf
+  notify:
+    - restart mpd
+
+- name: enable mpd service
+  template:
+    src: musicpd.j2
+    dest: /etc/rc.conf.d/musicpd
+  notify:
+    - restart mpd
